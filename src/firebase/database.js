@@ -1,0 +1,1 @@
+export const URL_FIREBASE = 'https://emercor-cafad-default-rtdb.firebaseio.com/'
