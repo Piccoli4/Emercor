@@ -117,7 +117,7 @@ const SignUpScreen = () => {
         image: selectedImage 
       }));
 
-      // Navigate to Home screen if successful
+      // Si es exitoso navega a Home
       navigation.navigate('Home');
     } catch (error) {
       // Si el error es de validación

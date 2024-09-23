@@ -28,6 +28,13 @@ tagTypes: ['postInfo', 'userInfo'],
       },
       invalidatesTags: ['postInfo']
     }),
+    deletePost: builder.mutation({
+      query: (postId) => ({
+        url: `/userPost/${postId}.json`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['postInfo'],
+    }),
     patchImageProfile: builder.mutation({
       async queryFn({ image, localId, name, lastName, email }) {
         try {
@@ -76,6 +83,7 @@ tagTypes: ['postInfo', 'userInfo'],
 export const { 
   useGetUserPostQuery,
   useAddPostMutation,
+  useDeletePostMutation,
   usePatchImageProfileMutation,
   useGetUserQuery,
   usePostUserLocationMutation,

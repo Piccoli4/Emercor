@@ -1,8 +1,9 @@
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { colors } from '../../global/colors';
 import { useNavigation } from '@react-navigation/native';
+import { Ionicons } from '@expo/vector-icons'
 
-const PostItem = ({item, hideCategory}) => {
+const PostItem = ({item, hideCategory, isDeletable, onDelete }) => {
 
     const navigation = useNavigation();
 
@@ -42,6 +43,12 @@ const PostItem = ({item, hideCategory}) => {
         ) : (
             <Text style={styles.itemPrice}>Precio no disponible</Text>
         )}
+        {/* Muestra el icono de eliminación si `isDeletable` es true */}
+        {isDeletable && (
+            <TouchableOpacity style={styles.deleteButton} onPress={() => onDelete(item.id)}>
+                <Ionicons name="trash-outline" size={26} color="red" />
+            </TouchableOpacity>
+        )}
   </TouchableOpacity>
   )
 }
@@ -56,7 +63,8 @@ const styles = StyleSheet.create({
         borderColor: '#7B2CBF',
         borderRadius: 10,
         margin: 5,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        position: 'relative'
     },
     itemImageAndCategory: {
         backgroundColor: '#7B2CBF',
@@ -102,5 +110,10 @@ const styles = StyleSheet.create({
         textShadowColor: '#000',
         textShadowOffset: {width: 0.6, height: 0.6},
         textShadowRadius: 1
+    },
+    deleteButton: {
+        position: 'absolute',
+        bottom: 5,
+        right: 5,
     }
 })

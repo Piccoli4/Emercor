@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
     textContainer: {
         flex: 1,
         alignItems: 'center',
-        marginTop: -45
+        marginTop: -15
     },
     title: {
         fontSize: 35,

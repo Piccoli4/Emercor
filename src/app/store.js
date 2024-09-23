@@ -7,7 +7,7 @@ import { userApi } from '../services/user'
 
 export const store = configureStore({
   reducer: {
-    // Add the generated reducer as a specific top-level slice
+    // Agrega el reducer generado como una porción específica de nivel superior
     auth: authReducer,
     [authApi.reducerPath]: authApi.reducer,
     [marketApi.reducerPath]: marketApi.reducer,

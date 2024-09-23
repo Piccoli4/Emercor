@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native'
-import React from 'react'
 import { useSelector } from 'react-redux'
-import { useGetUserPostQuery } from '../services/user'
+import { useGetUserPostQuery, useDeletePostMutation } from '../services/user'
 import Loading from '../components/Loading'
 import PostItem from '../components/HomeScreen/PostItem'
 import { colors } from '../global/colors'
@@ -11,6 +10,7 @@ const MyPublicationsScreen = () => {
   const localId = useSelector(state => state.auth.localId)
 
   const { data: userPosts, error, isLoading } = useGetUserPostQuery(localId)
+  const [ deletePost ] = useDeletePostMutation()
 
   // Convierte userPosts en array
   const postArray = userPosts ? Object.entries(userPosts).map(([key, value]) => ({ ...value, id: key })) : []
@@ -18,10 +18,24 @@ const MyPublicationsScreen = () => {
   // Filtra solo las publicaciones del usuario actual
   const filteredPosts = postArray.filter(post => post.localId === localId)
 
+  const handleDelete = async (postId) => {
+    try {
+      await deletePost(postId)
+    } catch (error) {
+      console.error('Error al eliminar la publicación:', error);
+    }
+  }
+
   if (isLoading) return <Loading />
   if (error) return <Text>Error: {error.message}</Text>
 
-  const renderItem = ({ item }) => <PostItem item={item}/>
+  const renderItem = ({ item }) => (
+    <PostItem 
+      item={item} 
+      isDeletable={true} // Prop para hacer el item eliminable
+      onDelete={handleDelete} // Función de eliminación
+    />
+  )
 
   return (
     <View style={styles.container}>

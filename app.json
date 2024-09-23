@@ -12,13 +12,18 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.piccoli.Emercor"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.piccoli.Emercor"
     },
     "web": {
       "favicon": ""
@@ -30,6 +35,11 @@
           "photosPermission": "La aplicación accede a tus fotos para permitirte compartirlas con posibles compradores."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "fc090c98-0278-48c7-a22f-b75a8a1e1264"
+      }
+    }
   }
 }

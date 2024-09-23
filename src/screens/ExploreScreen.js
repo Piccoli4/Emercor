@@ -24,6 +24,7 @@ const ExploreScreen = () => {
   const postArray = userPosts ? Object.entries(userPosts).map(([key, value]) => ({ ...value, id: key })) : [];
 
   // Filter posts based on search query
+  // Filtra publicaciones basada en la consulta de SearchBar
   const filteredPosts = postArray.filter(
     (post) =>
       post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
