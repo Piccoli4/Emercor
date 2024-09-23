@@ -125,7 +125,7 @@ const AddPostScreen = () => {
 
     try {
 
-      // First, upload the image to Firebase Storage
+      // Primero sube la imagen a Firebase Storage
       const storage = getStorage(firebaseApp);
       const response = await fetch(imageUrl);
       const blob = await response.blob();
@@ -133,7 +133,7 @@ const AddPostScreen = () => {
       const snapshot = await uploadBytes(storageRef, blob);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
-      // Once the image is uploaded, create the post data
+      // Cuando la imagen esta subida, crea postData
       const postData = {
         image: downloadURL,
         title,
