@@ -20,8 +20,6 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { firebaseApp } from '../firebase/firebaseConfig';
 import Header from '../components/HomeScreen/Header';
 import { useSelector } from 'react-redux';
-import { addPostSchema } from '../validations/addPostSchema';
-import * as yup from 'yup';
 
 
 const AddPostScreen = () => {
@@ -118,24 +116,16 @@ const AddPostScreen = () => {
 
   // Función para manejar la publicación
   const handlePost = async () => {
-    const postData = {
-      imageUrl,
-      title,
-      description,
-      price: parseFloat(price.replace(',', '.')) || 0, // Reemplaza las comas por puntos y asegura que sea un número.
-      selectedCategory,
-      selectedProvince,
-      selectedDepartment,
-      selectedLocality,
-    };
+    if (!title || !description || !price || !address || !selectedCategory || !selectedProvince || !imageUrl) {
+      alert('Por favor, complete todos los campos.');
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
-      // Validar los datos usando el esquema de yup
-      await addPostSchema.validate(postData, { abortEarly: false });
 
-      setIsSubmitting(true);
-
-      // Primero sube la imagen a Firebase Storage y crea la publicación
+      // First, upload the image to Firebase Storage
       const storage = getStorage(firebaseApp);
       const response = await fetch(imageUrl);
       const blob = await response.blob();
@@ -143,28 +133,30 @@ const AddPostScreen = () => {
       const snapshot = await uploadBytes(storageRef, blob);
       const downloadURL = await getDownloadURL(snapshot.ref);
 
-      // Cuando se sube la imagen crea finalPostData
-      const finalPostData = {
-        ...postData,
-        image: downloadURL, // Usar la URL de la imagen subida
-        createdAt: new Date(),
-        localId,
+      // Once the image is uploaded, create the post data
+      const postData = {
+        image: downloadURL,
+        title,
+        description,
+        category: selectedCategory, 
+        province: selectedProvince.name, 
+        department: selectedDepartment.name,  
+        locality: selectedLocality.name, 
+        address,
+        price: parseFloat(price.replace(',', '.')) || 0, // Reemplaza las comas por puntos y asegura que sea un número.
+        createdAt: new Date(), // Agrega la fecha actual
+        localId
       };
 
-      await addPost(finalPostData).unwrap(); // Llama a la mutación de redux
+      await addPost(postData).unwrap(); // Llama a la mutación de redux
       alert('Publicación creada con éxito!');
 
       // Resetear todos los campos del formulario
       resetFormFields();
 
-    } catch (err) {
-        if (err instanceof yup.ValidationError) {
-          err.inner.forEach((error) => {
-          alert(error.message);  // Muestra los mensajes de error de validación
-        }); 
-      } else {
-        alert('Error al crear la publicación: ' + err.message);
-      }
+    } catch (e) {
+      console.error('Error: ', e);
+      alert('Error al crear la publicación: ' + e.message); 
     } finally {
       setIsSubmitting(false); 
     }   
