@@ -6,11 +6,11 @@ import { Ionicons } from '@expo/vector-icons'
 import Checkbox from 'expo-checkbox'
 import { useNavigation } from '@react-navigation/native';
 import { useSignUpUserMutation } from '../services/auth';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import Loading from '../components/Loading';
 import { signUpSchema } from '../validations/signUpSchema';
 import * as ImagePicker from 'expo-image-picker'
-import { usePatchImageProfileMutation } from '../services/market';
+import { usePatchImageProfileMutation } from '../services/user';
 import { setUser } from '../features/auth/authSlice'
 import MyAlert from '../components/MyAlert'
 
@@ -29,7 +29,7 @@ const SignUpScreen = () => {
   // const [ isChecked, setIsChecked ] = useState(false)
   const [ errors, setErrors ] = useState({})
   const navigation = useNavigation()
-  const [ triggerSigUp, { data, isSuccess, isLoading } ] = useSignUpUserMutation()
+  const [ triggerSigUp, { isLoading } ] = useSignUpUserMutation()
   const dispatch = useDispatch()
   const [ alertVisible, setAlertVisible ] = useState(false);
   const [ alertMessage, setAlertMessage ] = useState('');
