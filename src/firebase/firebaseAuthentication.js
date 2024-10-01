@@ -1,2 +1,4 @@
-export const API_AUTH = 'AIzaSyAOdIWwjiTfH8qxDg1SS7sNI1q8GbvvP8E'
-export const URL_AUTH = 'https://identitytoolkit.googleapis.com/v1/'
+import Constants from 'expo-constants'
+
+export const API_AUTH = Constants.expoConfig.extra.API_AUTH
+export const URL_AUTH = Constants.expoConfig.extra.URL_AUTH
